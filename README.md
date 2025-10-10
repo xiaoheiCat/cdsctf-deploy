@@ -1,5 +1,5 @@
 # cdsctf-deploy
-Deploy CdsCTF by few simple commands.
+Deploy CdsCTF by few simple commands. Using Docker + K3s Deploy. Suitable for China users.
 
 ## Get Started
 ```bash
