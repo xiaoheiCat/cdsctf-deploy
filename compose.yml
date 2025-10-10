@@ -5,6 +5,8 @@ services:
     ports:
       - "80:8888"
     restart: always
+    environment:
+      - KUBECONFIG=/etc/cdsctf/k8s.yml
     volumes:
       - "backend:/app/data"
       - "./configs:/etc/cdsctf"
