@@ -1,0 +1,45 @@
+[server]
+host = "0.0.0.0"
+port = 8888
+frontend = "./dist"
+
+[media]
+path = "./data/media"
+
+[logger]
+level = "info,sqlx=debug,sea_orm=debug,cds_web=debug"
+
+[db]
+host = "db"
+port = 5432
+dbname = "cdsctf"
+username = "cdsctf"
+password = "cdsctf"
+ssl_mode = "disable"
+
+[queue]
+host = "queue"
+port = 4222
+username = ""
+password = ""
+token = ""
+tls = false
+
+[cache]
+url = "redis://cache:6379"
+
+[cluster]
+namespace = "cdsctf-challenges"
+auto_infer = true
+config_path = "/etc/cdsctf/k8s.yml"
+traffic = "expose"
+public_entry = "REPLACE_WITH_YOUR_SERVER_ENTRY"
+
+[telemetry]
+is_enabled = false
+protocol = "grpc"
+endpoint_url = "http://telemetry:4317"
+
+[jwt]
+secret = "REPLACE_WITH_A_RANDOM_STRING"
+expiration = 43200
