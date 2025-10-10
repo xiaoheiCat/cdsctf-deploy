@@ -29,8 +29,8 @@ echo "Configuring K3s..."
 sudo cat /etc/rancher/k3s/k3s.yaml > ./configs/k8s.yml
 sed -i 's/127.0.0.1/172.20.0.1/g' ./configs/k8s.yml
 sudo systemctl stop k3s
-sudo echo "tls-san:" > /etc/rancher/k3s/config.yaml
-sudo echo "  - 172.20.0.1" >> /etc/rancher/k3s/config.yaml
+sudo bash -c 'echo "tls-san:" > /etc/rancher/k3s/config.yaml'
+sudo bash -c 'echo "  - 172.20.0.1" >> /etc/rancher/k3s/config.yaml'
 sudo rm /var/lib/rancher/k3s/server/tls/server-ca.crt
 sudo rm /var/lib/rancher/k3s/server/tls/server-ca.key
 sudo systemctl start k3s
