@@ -51,6 +51,9 @@ services:
   media:
     image: docker.1ms.run/rustfs/rustfs:latest
     restart: unless-stopped
+    environment:
+      RUSTFS_ACCESS_KEY: cdsctf
+      RUSTFS_SECRET_KEY: cdsctf
     volumes:
       - media:/data
     networks:
