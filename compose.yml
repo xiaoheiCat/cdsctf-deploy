@@ -1,6 +1,5 @@
-version: "3.0"
 services:
-  backend:
+  server:
     image: docker.1ms.run/elabosak233/cdsctf:latest
     ports:
       - "80:8888"
@@ -8,30 +7,30 @@ services:
     environment:
       - KUBECONFIG=/etc/cdsctf/k8s.yml
     volumes:
-      - "backend:/app/data"
       - "./configs:/etc/cdsctf"
     depends_on:
       - db
       - queue
       - cache
+      - media
     networks:
       cdsnet:
         ipv4_address: "172.20.0.10"
 
   db:
-    image: docker.1ms.run/postgres:alpine
+    image: docker.1ms.run/library/postgres:18-alpine
     restart: always
     environment:
       POSTGRES_USER: cdsctf
       POSTGRES_PASSWORD: cdsctf
       POSTGRES_DB: cdsctf
     volumes:
-      - "db:/var/lib/postgresql/data"
+      - "db:/var/lib/postgresql/18/docker"
     networks:
       cdsnet:
 
   queue:
-    image: docker.1ms.run/nats:alpine
+    image: docker.1ms.run/library/nats:2-alpine
     restart: always
     command:
       - "--js"
@@ -42,29 +41,26 @@ services:
       cdsnet:
 
   cache:
-    image: docker.1ms.run/valkey/valkey:alpine
+    image: docker.1ms.run/valkey/valkey:9-alpine
     restart: always
     volumes:
       - "cache:/data"
     networks:
       cdsnet:
 
-  #telemetry:
-  #  image: docker.1ms.run/otel/opentelemetry-collector:latest
-  #  ports:
-  #    - "127.0.0.1:2345:2345"
-  #  volumes:
-  #    - "./otel-config.yml:/otel-config.yml:ro"
-  #  command: ["--config", "/otel-config.yml"]
-  #  restart: unless-stopped
-  #  networks:
-  #    cdsnet:
+  media:
+    image: rustfs/rustfs:latest
+    restart: unless-stopped
+    volumes:
+      - media:/data
+    networks:
+      cdsnet:
 
 volumes:
-  backend:
   db:
   queue:
   cache:
+  media:
 
 networks:
   cdsnet:
