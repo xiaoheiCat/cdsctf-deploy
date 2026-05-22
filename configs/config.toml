@@ -2,12 +2,36 @@
 host = "0.0.0.0"
 port = 8888
 frontend = "./dist"
+cors_origins = "*"
+
+[server.rate_limit]
+enabled = true
+burst_restore_rate = 100
+burst_size = 512
 
 [media]
-path = "./data/media"
+endpoint = "http://media:9000"
+region = "us-east-1"
+bucket = "cdsctf"
+access_key = "rustfsadmin"
+secret_key = "rustfsadmin"
+prefix = ""
+path_style = true
+presigned = false
+# presigned_endpoint = "https://media.example.com"  # 可选；生成预签名 URL 时使用
 
-[logger]
-level = "info,sqlx=debug,sea_orm=debug,cds_web=debug"
+[observe]
+service_name = "cdsctf"
+
+[observe.logger]
+level = "info"
+
+[observe.exporter]
+enabled = false
+# endpoint = "http://telemetry:4317"
+# metric_endpoint = "..."
+# log_endpoint = "..."
+# trace_endpoint = "..."
 
 [db]
 host = "db"
@@ -35,11 +59,6 @@ config_path = "/etc/cdsctf/k8s.yml"
 traffic = "expose"
 public_entry = "REPLACE_WITH_YOUR_SERVER_ENTRY"
 
-[telemetry]
-is_enabled = false
-protocol = "grpc"
-endpoint_url = "http://telemetry:4317"
-
-[jwt]
-secret = "REPLACE_WITH_A_RANDOM_STRING"
-expiration = 43200
+# [jwt]  # 仅为兼容性保留；新版本已移除此字段。
+# secret = "REPLACE_WITH_A_RANDOM_STRING"
+# expiration = 43200
