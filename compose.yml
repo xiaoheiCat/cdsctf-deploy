@@ -49,7 +49,7 @@ services:
       cdsnet:
 
   media:
-    image: rustfs/rustfs:latest
+    image: docker.1ms.run/rustfs/rustfs:latest
     restart: unless-stopped
     volumes:
       - media:/data
